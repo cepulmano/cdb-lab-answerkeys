@@ -28,16 +28,21 @@ def checkout(username, address, items):
     # Generate order ID. In real life, there are better
     # ways of doing this
     order_id = hashlib.sha256(str(random.random()).encode()).hexdigest()[:random.randrange(1, 20)]
+    pending_id = hashlib.sha256(str(random.random()).encode()).hexdigest()[:random.randrange(1, 20)]
     
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('users-orders-items')
     
+    status = "Pending"
+    date = "2020-10-01"
     item = {
         'pk'      : '#USER#{0}'.format(username), 
         'sk'      : '#ORDER#{0}'.format(order_id),
         'address' : address,
-        'status'  : "Placed",
-        "orderAddress": '{0}#ORDER#{1}'.format(address,order_id)
+        'status'  : status,
+        'date'    : date,
+        "orderStatusDate": '{0}#{1}'.format(status,date),
+        'pendingId': pending_id
     }
     table.put_item(Item=item)
     
