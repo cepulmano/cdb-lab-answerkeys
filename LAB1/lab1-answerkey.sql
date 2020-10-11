@@ -16,7 +16,7 @@ WITH flight_ave AS (
     WHERE dest IN ('ORD','SFO')
     GROUP BY the_month, the_year, origin, dest
 )
-SELECT p.mkt_carrier_fl_num, p.mkt_carrier, p.origin, p.dest, p.dep_delay_new, fa.monthly_average
+SELECT p.mkt_carrier_fl_num, p.fl_date, p.mkt_carrier, p.origin, p.dest, p.dep_delay_new, fa.monthly_average
 FROM performance p
 JOIN flight_ave fa
     ON EXTRACT("YEAR" FROM p.fl_date) = fa.the_year
