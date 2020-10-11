@@ -13,7 +13,7 @@ WHERE p.arr_delay_new > p.dep_delay_new;
 WITH flight_ave AS (
     SELECT EXTRACT("YEAR" FROM fl_date) "the_year", EXTRACT("MONTH" FROM fl_date) "the_month", origin, dest, AVG(dep_delay_new) "monthly_average"
     FROM performance
-    WHERE dest IN ('ORD','SFO') AND mkt_carrier = 'UA'
+    WHERE dest IN ('ORD','SFO')
     GROUP BY the_month, the_year, origin, dest
 )
 SELECT p.mkt_carrier_fl_num, p.mkt_carrier, p.origin, p.dest, p.dep_delay_new, fa.monthly_average
@@ -24,7 +24,8 @@ JOIN flight_ave fa
     AND p.origin = fa.origin
     AND p.dest = fa.dest
 WHERE
-    p.dep_delay_new > fa.monthly_average;
+    p.dep_delay_new > fa.monthly_average
+    AND p.mkt_carrier = 'UA';
 
 -- Several airlines are part of an air alliance, which allows transfers between carriers to be made more easily. This is a list of carrier codes and their air alliances:
 
