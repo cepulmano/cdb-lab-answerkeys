@@ -22,10 +22,7 @@ def insert_items(ddb_table_name,filename):
     with open(filename) as theFile:
         reader = csv.DictReader(theFile)
         for line in reader:
-            item = {}
-            for key in line.keys():
-                item[key] = line[key]
-            table.put_item(Item=item)
+            table.put_item(Item=line)
 
 def update_item(ddb_table_name,pk,pk_value,attr,attr_value):
     dynamodb = boto3.resource('dynamodb')
