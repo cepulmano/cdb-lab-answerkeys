@@ -1,0 +1,48 @@
+// 1 Which students have an exam grade higher than 75
+db.grades.find({
+    "scores": {
+        "$elemMatch": {
+            "type": "exam",
+            "score": { "$gt": 75 }
+        }
+    }
+})
+
+// 2 Which documents in the inspections collection have result “Pass” or “Fail”?
+db.inspections.find({
+    "$or": [
+        { "result": "Pass" },
+        { "result": "Fail" }
+    ]
+})
+
+//3 Find all digg stories where the topic name is “Television” or the media type is “videos” and sort by diggs.
+db.stories.find({
+    "$or": [
+        { "topic.name": "Television" },
+        { "media": "videos" }
+    ]
+}).sort({
+    "diggs": 1
+})
+
+//4 In the stories collection, write a query to find all stories where the view count is greater than 1000.
+db.stories.find({
+    "shorturl": {
+        "$elemMatch": {
+            "view_count": { "$gt": 1000 }
+        }
+    }
+})
+
+// 5 For all inspections that failed, set a fine value of 100.
+db.inspections.updateMany(
+    { "result": "Fail" },
+    { "$set":  { "fine": 100 } }
+)
+
+// 6 Update all inspections done in the city of “ROSEDALE”. For failed inspections, raise the “fine” value by 150.
+db.inspections.updateMany(
+    { "address.city": "ROSEDALE", "result": "Fail" },
+    { "$inc": { "fine": 150 } }
+)

@@ -1,3 +1,4 @@
+// In the posts collection, find the most common tag.
 db.posts.aggregate([
     { 
         "$unwind": "$tags" 
@@ -17,6 +18,7 @@ db.posts.aggregate([
     }
 ])
 
+// Find how many inspections in Jamaica failed per zip code, sort from the most failures to the least failures
 db.inspections.aggregate([
     {
         "$match": {
@@ -39,6 +41,7 @@ db.inspections.aggregate([
     }
 ])
 
+// Find the average viewcount of popular stories in the stories collection per media type
 db.stories.aggregate([
     {
         "$unwind": "$shorturl"
@@ -53,7 +56,7 @@ db.stories.aggregate([
     }
 ])
 
-
+// In the tweets collection, find the users who are mentioned the most
 db.tweets.aggregate([
     {
         "$unwind": "$entities.user_mentions"
@@ -73,6 +76,7 @@ db.tweets.aggregate([
     }
 ])
 
+// In the movies collection, find the actor/actress with the most highly rated movies based on average tomato rating
 db.movies.aggregate([
     {
         "$unwind": "$cast"
@@ -93,4 +97,4 @@ db.movies.aggregate([
     {
         "$limit": 10
     }
-]).pretty()
+])
