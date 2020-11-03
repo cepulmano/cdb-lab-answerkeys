@@ -44,6 +44,11 @@ db.inspections.aggregate([
 // Find the average viewcount of popular stories in the stories collection per media type
 db.stories.aggregate([
     {
+        "$match": {
+            "status": "popular"
+        }
+    },
+    {
         "$unwind": "$shorturl"
     },
     {
